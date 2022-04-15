@@ -1,0 +1,10 @@
+page:
+  refresh-interval.milliseconds: 300000
+  url: https://voices-of-peace.live/
+  selector: '#rec434017840 > div > div > div.t185__butwrapper.t-col.t-col_2 > a'
+  attribute: href
+
+sender:
+  username: dario.mauri9@gmail.com
+  password: aqezxygnwzjtzwdp
+recipient.usernames: dario.mauri9@gmail.com, elen.tseller@gmail.com
