@@ -1,12 +1,11 @@
 package com.dario.pagechecker.core.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -16,13 +15,10 @@ import static java.lang.String.format;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmailService {
 
-    @Resource
-    private Session emailSession;
-
-    @Value("${page.url}")
-    private String url;
+    private final Session emailSession;
 
     @Value("${sender.username}")
     private String sender;
@@ -30,7 +26,7 @@ public class EmailService {
     @Value("${recipient.usernames}")
     private String recipients;
 
-    public void send() {
+    public void send(String subject, String body) {
         try {
             Message message = new MimeMessage(emailSession);
             message.setFrom(new InternetAddress(sender));
@@ -38,12 +34,12 @@ public class EmailService {
                     Message.RecipientType.TO,
                     InternetAddress.parse(recipients)
             );
-            message.setSubject("Ticket available!");
-            message.setText(format("Ticket at %s is available for purchase.", url));
+            message.setSubject(subject);
+            message.setText(body);
 
             Transport.send(message);
             log.info("Email sent!");
-        } catch (MessagingException ex) {
+        } catch (Exception ex) {
             throw new RuntimeException(format("Failed to send email from %s to %s", sender, recipients), ex);
         }
     }

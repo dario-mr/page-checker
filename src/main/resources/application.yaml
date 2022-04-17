@@ -1,6 +1,6 @@
 page:
-  refresh-interval.milliseconds: 300000
   url: https://voices-of-peace.live/
+  refresh-interval.milliseconds: 300000
   selector: '#rec434017840 > div > div > div.t185__butwrapper.t-col.t-col_2 > a'
   attribute: href
 
