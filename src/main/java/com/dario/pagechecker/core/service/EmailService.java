@@ -20,10 +20,10 @@ public class EmailService {
 
     private final Session emailSession;
 
-    @Value("${sender.username}")
+    @Value("${sender.address}")
     private String sender;
 
-    @Value("${recipient.usernames}")
+    @Value("${recipient.addresses}")
     private String recipients;
 
     public void send(String subject, String body) {

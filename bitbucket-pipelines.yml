@@ -4,11 +4,11 @@ pipelines:
   default:
     - parallel:
       - step:
-          name: Build and Test
+          name: Build, Test, Package
           caches:
             - maven
           script:
-            - mvn -B verify --file pom.xml
+            - mvn -B clean verify
           after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
             - pipe: atlassian/checkstyle-report:0.3.0

@@ -14,7 +14,7 @@ import java.util.Properties;
 @EnableScheduling
 public class ApplicationConfig {
 
-    @Value("${sender.username}")
+    @Value("${sender.address}")
     private String username;
 
     @Value("${sender.password}")

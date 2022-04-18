@@ -15,7 +15,7 @@
     <version>0.0.1</version>
 
     <name>Page Checker</name>
-    <description>This application checks for the presence of a html attribute in a web page and, when found, notifies users via email</description>
+    <description>This application checks for the presence of a html attribute in a web page and, when found, notifies registered users via email</description>
 
     <properties>
         <java.version>11</java.version>

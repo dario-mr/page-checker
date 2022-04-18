@@ -5,6 +5,6 @@ page:
   attribute: href
 
 sender:
-  username: dario.mauri9@gmail.com
+  address: dario.mauri9@gmail.com
   password: aqezxygnwzjtzwdp
-recipient.usernames: dario.mauri9@gmail.com, elen.tseller@gmail.com
+recipient.addresses: dario.mauri9@gmail.com, elen.tseller@gmail.com
