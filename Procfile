@@ -1,0 +1,1 @@
+web: java -jar target/page-checker-0.0.1.jar
