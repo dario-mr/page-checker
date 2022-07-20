@@ -15,6 +15,7 @@ public class ShutdownManager {
 
     public void shutdown(int exitCode) {
         log.info("Shutting down application");
-        SpringApplication.exit(context, () -> exitCode);
+        int status = SpringApplication.exit(context, () -> exitCode);
+        System.exit(status);
     }
 }

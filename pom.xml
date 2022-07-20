@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <project.version>0.0.3</project.version>
+        <project.version>0.0.4 </project.version>
 
         <jsoup.version>1.14.3</jsoup.version>
         <javax.mail.version>1.6.2</javax.mail.version>
