@@ -1,1 +1,1 @@
-web: java -jar target/page-checker-0.0.2.jar
+web: java $JAVA_OPTS -jar target/*.jar
