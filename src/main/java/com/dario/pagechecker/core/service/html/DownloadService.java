@@ -1,4 +1,4 @@
-package com.dario.pagechecker.core.service;
+package com.dario.pagechecker.core.service.html;
 
 import static java.lang.String.format;
 
@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 @Service
 public class DownloadService {
 
-    @Value("${page.url}")
+    @Value("${html-checker.url}")
     private String url;
 
     public Document download() {

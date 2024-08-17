@@ -1,14 +1,20 @@
 spring:
   application.name: page-checker
-  config.import: optional:file:.env[.properties] # enable scanning of .env file
+  config.import: optional:file:.env[.properties] # scan .env file, if present
 
 server.port: ${PORT:8084}
 
-page:
-  url: https://www.ikea.com/cz/en/p/landskrona-3-seat-sofa-gunnared-light-green-metal-s49270321/
+html-checker:
+  job.active: ${HTML_JOB_ACTIVE:false}
+  url: 'https://www.ikea.com/cz/en/p/landskrona-3-seat-sofa-gunnared-light-green-metal-s49270321/'
   refresh-interval.ms: 300000 # 5 minutes
   selector: '#pip-buy-module-content > div.js-buy-module.pip-buy-module > div > div > div > button > span > span'
   attribute: 'Add to bag'
+
+json-checker:
+  job.active: ${JSON_JOB_ACTIVE:true}
+  url: 'https://api.ingka.ikea.com/cia/availabilities/ru/cz?itemNos=49270321&expand=StoresList,Restocks,SalesLocations,DisplayLocations'
+  refresh-interval.ms: 300000 # 5 minutes
 
 sender:
   address: dario.mauri9@gmail.com

@@ -13,8 +13,8 @@ import javax.mail.internet.MimeMessage;
 
 import static java.lang.String.format;
 
-@Service
 @Slf4j
+@Service
 @RequiredArgsConstructor
 public class EmailService {
 
