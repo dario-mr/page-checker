@@ -1,4 +1,4 @@
-package com.dario.pagechecker.util;
+package com.dario.pagechecker.core.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class ShutdownManager {
+public class ShutdownService {
 
     private final ApplicationContext context;
 

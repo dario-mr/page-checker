@@ -1,13 +1,14 @@
 spring:
   application.name: page-checker
-  config.import: optional:file:.env[.properties] # enable scanning of .env file for environment variables
-server.port: ${PORT:8080} # use PORT set by Heroku, otherwise 8080
+  config.import: optional:file:.env[.properties] # enable scanning of .env file
+
+server.port: ${PORT:8084}
 
 page:
-  url: https://voices-of-peace.live/
-  refresh-interval.milliseconds: 300000
-  selector: '#rec434017840 > div > div > div.t185__butwrapper.t-col.t-col_2 > a'
-  attribute: href
+  url: https://www.ikea.com/cz/en/p/landskrona-3-seat-sofa-gunnared-light-green-metal-s49270321/
+  refresh-interval.ms: 300000 # 5 minutes
+  selector: '#pip-buy-module-content > div.js-buy-module.pip-buy-module > div > div > div > button > span > span'
+  attribute: 'Add to bag'
 
 sender:
   address: dario.mauri9@gmail.com

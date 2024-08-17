@@ -1,15 +1,15 @@
-package com.dario.pagechecker.proxy;
-
-import com.dario.pagechecker.core.gateway.DownloadGateway;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+package com.dario.pagechecker.core.service;
 
 import static java.lang.String.format;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 @Service
-public class DownloadProxy implements DownloadGateway {
+public class DownloadService {
 
     @Value("${page.url}")
     private String url;

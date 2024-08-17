@@ -13,7 +13,7 @@ public class CheckScheduler {
 
     private final CheckService checkService;
 
-    @Scheduled(fixedDelayString = "${page.refresh-interval.milliseconds}")
+    @Scheduled(fixedDelayString = "${page.refresh-interval.ms}")
     public void run() {
         try {
             checkService.check();

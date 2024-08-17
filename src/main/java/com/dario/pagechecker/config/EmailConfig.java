@@ -5,14 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import java.util.Properties;
 
 @Configuration
 @EnableScheduling
-public class ApplicationConfig {
+public class EmailConfig {
 
     @Value("${sender.address}")
     private String username;

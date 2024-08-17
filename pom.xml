@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -12,14 +12,15 @@
 
     <groupId>com.dario</groupId>
     <artifactId>page-checker</artifactId>
-    <version>${project.version}</version>
+    <version>0.0.4</version>
 
     <name>Page Checker</name>
-    <description>This application checks for the presence of a html attribute in a web page and, when found, notifies registered users via email</description>
+    <description>This application checks for the presence of a html attribute in a web page and, when found, notifies
+        registered users via email
+    </description>
 
     <properties>
-        <java.version>11</java.version>
-        <project.version>0.0.4 </project.version>
+        <java.version>17</java.version>
 
         <jsoup.version>1.14.3</jsoup.version>
         <javax.mail.version>1.6.2</javax.mail.version>
@@ -64,12 +65,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/Sayre9/page-checker</url>
-        </repository>
-    </distributionManagement>
 </project>
