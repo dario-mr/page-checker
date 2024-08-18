@@ -5,11 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.Properties;
-
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import java.util.Properties;
 
 @Configuration
 @EnableScheduling
@@ -22,8 +21,8 @@ public class EmailConfig {
     private String password;
 
     @Bean
-    public Session emailSession() {
-        Properties prop = new Properties();
+    Session emailSession() {
+        var prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
         prop.put("mail.smtp.auth", "true");

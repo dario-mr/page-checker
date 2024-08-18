@@ -6,15 +6,16 @@ server.port: ${PORT:8084}
 
 html-checker:
   job.active: ${HTML_JOB_ACTIVE:false}
-  url: 'https://www.ikea.com/cz/en/p/landskrona-3-seat-sofa-gunnared-light-green-metal-s49270321/'
   refresh-interval.ms: 300000 # 5 minutes
+  url: 'https://www.ikea.com/cz/en/p/landskrona-3-seat-sofa-gunnared-light-green-metal-s49270321/'
   selector: '#pip-buy-module-content > div.js-buy-module.pip-buy-module > div > div > div > button > span > span'
   attribute: 'Add to bag'
 
 json-checker:
   job.active: ${JSON_JOB_ACTIVE:true}
-  url: 'https://api.ingka.ikea.com/cia/availabilities/ru/cz?itemNos=49270321&expand=StoresList,Restocks,SalesLocations,DisplayLocations'
   refresh-interval.ms: 300000 # 5 minutes
+  url: 'https://api.ingka.ikea.com/cia/availabilities/ru/cz?itemNos=49270321&expand=StoresList,Restocks,SalesLocations,DisplayLocations'
+  api-key: 'b6c117e5-ae61-4ef5-b4cc-e0b1e37f0631' # ikea API key, it's in every request from their own store, not a secret
 
 sender:
   address: dario.mauri9@gmail.com

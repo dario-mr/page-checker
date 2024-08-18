@@ -27,8 +27,10 @@ public class EmailService {
     private String recipients;
 
     public void send(String subject, String body) {
+        log.info("Sending email...");
+
         try {
-            Message message = new MimeMessage(emailSession);
+            var message = new MimeMessage(emailSession);
             message.setFrom(new InternetAddress(sender));
             message.setRecipients(
                     Message.RecipientType.TO,
@@ -40,7 +42,7 @@ public class EmailService {
             Transport.send(message);
             log.info("Email sent!");
         } catch (Exception ex) {
-            throw new RuntimeException(format("Failed to send email from %s to %s", sender, recipients), ex);
+            throw new RuntimeException(format("Failed to send email from [%s] to [%s]", sender, recipients), ex);
         }
     }
 }

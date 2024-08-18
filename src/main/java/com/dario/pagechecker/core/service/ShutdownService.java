@@ -6,8 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class ShutdownService {
 
@@ -15,7 +15,7 @@ public class ShutdownService {
 
     public void shutdown(int exitCode) {
         log.info("Shutting down application");
-        int status = SpringApplication.exit(context, () -> exitCode);
+        var status = SpringApplication.exit(context, () -> exitCode);
         System.exit(status);
     }
 }
