@@ -1,5 +1,6 @@
 package com.dario.pagechecker.core.service.html;
 
+import com.dario.pagechecker.core.service.DownloadService;
 import com.dario.pagechecker.core.service.EmailService;
 import com.dario.pagechecker.core.service.ShutdownService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
-import static java.lang.System.lineSeparator;
 
 @Slf4j
 @Service
@@ -27,17 +27,7 @@ public class HtmlChecker {
     public void check() {
         log.info("Checking page [{}] for desired attribute...", url);
 
-        Document page = null;
-        try {
-            page = downloadService.download();
-        } catch (Exception ex) {
-            var errorMessage = format("Failed to download page [%s].%sError: %s", url, lineSeparator(), ex.getMessage());
-
-            log.error(errorMessage, ex);
-            emailService.send("Failed to download page", errorMessage);
-            shutdownService.shutdown(1);
-        }
-
+        Document page = downloadService.download(url);
         if (parseService.hasAttribute(page)) {
             log.info("Attribute found! Sending email...");
             emailService.send("Item available!", format("Item is available at [%s].", url));

@@ -1,6 +1,6 @@
 package com.dario.pagechecker.job;
 
-import com.dario.pagechecker.core.service.json.JsonChecker;
+import com.dario.pagechecker.core.service.ikea.IkeaChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "json-checker.job.active", havingValue = "true")
-public class JsonCheckerJob {
+@ConditionalOnProperty(name = "ikea-checker.job.active", havingValue = "true")
+public class IkeaCheckerJob {
 
-    private final JsonChecker jsonChecker;
+    private final IkeaChecker ikeaChecker;
 
-    @Scheduled(fixedDelayString = "${json-checker.refresh-interval.ms}")
+    @Scheduled(fixedDelayString = "${ikea-checker.refresh-interval.ms}")
     public void run() {
-        jsonChecker.check();
+        ikeaChecker.check();
     }
 }

@@ -11,13 +11,19 @@ html-checker:
   selector: '#pip-buy-module-content > div.js-buy-module.pip-buy-module > div > div > div > button > span > span'
   attribute: 'Add to bag'
 
-json-checker:
-  job.active: ${JSON_JOB_ACTIVE:true}
+ikea-checker:
+  job.active: ${JSON_JOB_ACTIVE:false}
   refresh-interval.ms: 300000 # 5 minutes
   url: 'https://api.ingka.ikea.com/cia/availabilities/ru/cz?itemNos=49270321&expand=StoresList,Restocks,SalesLocations,DisplayLocations'
   api-key: 'b6c117e5-ae61-4ef5-b4cc-e0b1e37f0631' # ikea API key, it's in every request from their own store, not a secret
 
+arket-checker:
+  job.active: ${ARKET_JOB_ACTIVE:false}
+  refresh-interval.ms: 300000 # 5 minutes
+  url: 'https://www.arket.com/en_eur/women/jackets-coats/product.shawl-collar-wool-jacket-grey.1195460001.html'
+  desired-price: '100'
+
 sender:
   address: dario.mauri9@gmail.com
   password: ${SENDER_PASSWORD}
-recipient.addresses: dario.mauri9@gmail.com, elen.tseller@gmail.com
+recipient.addresses: dario.mauri9@gmail.com

@@ -1,4 +1,4 @@
-package com.dario.pagechecker.core.service.json;
+package com.dario.pagechecker.core.service.ikea;
 
 import com.dario.pagechecker.proxy.ikea.dto.IkeaResponse;
 
