@@ -60,6 +60,7 @@ public class VisaStatusChecker {
       log.info("VISA status check completed");
     } catch (Exception e) {
       log.error("Error during VISA status check", e);
+      emailService.send("Error during VISA status check", e.getMessage());
     }
   }
 
