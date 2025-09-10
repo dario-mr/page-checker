@@ -23,7 +23,13 @@ arket-checker:
   url: 'https://www.arket.com/en_eur/women/jackets-coats/product.shawl-collar-wool-jacket-grey.1195460001.html'
   desired-price: '100'
 
+visa-checker:
+  job.active: ${VISA_JOB_ACTIVE:false}
+  refresh-interval.ms: 3600000 # 1 hour
+  url: 'https://ipc.gov.cz/informace-o-stavu-rizeni/'
+  headless: ${VISA_CHECKER_HEADLESS:true}
+
 sender:
   address: dario.mauri9@gmail.com
   password: ${SENDER_PASSWORD}
-recipient.addresses: dario.mauri9@gmail.com
+recipient.addresses: ${RECIPIENTS}
