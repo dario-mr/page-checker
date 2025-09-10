@@ -1,6 +1,6 @@
 package com.dario.pagechecker.proxy.ikea;
 
-import com.dario.pagechecker.core.service.json.IkeaGateway;
+import com.dario.pagechecker.core.service.ikea.IkeaGateway;
 import com.dario.pagechecker.proxy.ikea.dto.IkeaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;

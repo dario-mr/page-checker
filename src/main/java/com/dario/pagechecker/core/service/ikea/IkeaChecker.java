@@ -1,4 +1,4 @@
-package com.dario.pagechecker.core.service.json;
+package com.dario.pagechecker.core.service.ikea;
 
 import com.dario.pagechecker.core.service.EmailService;
 import com.dario.pagechecker.core.service.ShutdownService;
@@ -14,16 +14,16 @@ import static java.lang.System.lineSeparator;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class JsonChecker {
+public class IkeaChecker {
 
     private final EmailService emailService;
     private final ShutdownService shutdownService;
     private final IkeaGateway ikeaGateway;
 
-    @Value("${json-checker.url}")
+    @Value("${ikea-checker.url}")
     private String url;
 
-    @Value("${json-checker.api-key}")
+    @Value("${ikea-checker.api-key}")
     private String ikeaApiKey;
 
     public void check() {
