@@ -27,6 +27,7 @@ visa-checker:
   job.active: ${VISA_JOB_ACTIVE:false}
   refresh-interval.ms: 3600000 # 1 hour
   url: 'https://ipc.gov.cz/informace-o-stavu-rizeni/'
+  headless: ${VISA_CHECKER_HEADLESS:true}
 
 sender:
   address: dario.mauri9@gmail.com

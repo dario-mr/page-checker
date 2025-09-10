@@ -13,6 +13,8 @@ When found, it notifies registered users via email.
 - `JSON_JOB_ACTIVE`: flag to indicate if the json checker job is active (default: `false`)
 - `ARKET_JOB_ACTIVE`: flag to indicate if the arket checker job is active (default: `false`)
 - `VISA_JOB_ACTIVE`: flag to indicate if the visa status checker job is active (default: `false`)
+- `VISA_CHECKER_HEADLESS`: flag to indicate if the visa status checker should run in a headless
+  browser (default: `true`)
 - `SENDER_PASSWORD`: sender's email password (not necessarily the actual account password - e.g. in
   the case of gmail,
   this is the so-called "app password")

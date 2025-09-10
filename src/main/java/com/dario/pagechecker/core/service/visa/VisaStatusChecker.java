@@ -11,6 +11,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
@@ -26,17 +27,20 @@ public class VisaStatusChecker {
   private final EmailService emailService;
   private final ShutdownService shutdownService;
 
-  private static final Path STATE_FILE = Path.of("visa-status.json");
+  private static final Path STATE_DIR = Path.of(System.getProperty("user.home"), ".visa-checker");
+  private static final Path STATE_FILE = STATE_DIR.resolve("visa-status.json");
   private static final String IN_PROGRESS = "zpracovava se";
 
   @Value("${visa-checker.url}")
   private String url;
+  @Value("${visa-checker.headless}")
+  private Boolean headless;
 
   public void checkStatus() {
     log.info("Checking VISA status from url {}... ", url);
 
     try (var pw = Playwright.create();
-        var browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false))) {
+        var browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless))) {
       var context = prepareContext(browser);
       var page = navigateTo(context, url);
 
@@ -51,6 +55,7 @@ public class VisaStatusChecker {
         return;
       }
 
+      // save session for next run
       context.storageState(new BrowserContext.StorageStateOptions().setPath(STATE_FILE));
       log.info("VISA status check completed");
     } catch (Exception e) {
@@ -58,7 +63,9 @@ public class VisaStatusChecker {
     }
   }
 
-  private BrowserContext prepareContext(Browser browser) {
+  private BrowserContext prepareContext(Browser browser) throws IOException {
+    Files.createDirectories(STATE_DIR);
+
     var contextOptions = new Browser.NewContextOptions();
     if (Files.exists(STATE_FILE)) {
       contextOptions.setStorageStatePath(STATE_FILE);
@@ -105,7 +112,7 @@ public class VisaStatusChecker {
   }
 
   private void handleCaptcha() {
-    // TODO it seems we never get a captcha, so this stays empty for now
+    // intentionally empty – no captcha challenges are popping up for now
   }
 
 }
