@@ -37,7 +37,7 @@ public class VisaStatusChecker {
   private Boolean headless;
 
   public void checkStatus() {
-    log.info("Checking VISA status from url {}... ", url);
+    log.info("Checking VISA status from {}", url);
 
     try (var pw = Playwright.create();
         var browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless))) {
@@ -57,7 +57,7 @@ public class VisaStatusChecker {
 
       // save session for next run
       context.storageState(new BrowserContext.StorageStateOptions().setPath(STATE_FILE));
-      log.info("VISA status check completed");
+      log.info("VISA status check completed: [{}]", applicationStatus);
     } catch (Exception e) {
       log.error("Error during VISA status check", e);
       emailService.send("Error during VISA status check", e.getMessage());
@@ -88,12 +88,12 @@ public class VisaStatusChecker {
     selectReactOptionByIndex(page, 1, "2025");
   }
 
-  private void selectReactOptionByIndex(Page page, int index, String valueToChoose) {
+  private void selectReactOptionByIndex(Page page, int index, String value) {
     var controls = page.locator(".react-select__control");
     controls.nth(index).click();
 
     var input = page.locator("input[aria-autocomplete='list']").nth(index);
-    input.fill(valueToChoose);
+    input.fill(value);
     input.press("Enter");
   }
 
