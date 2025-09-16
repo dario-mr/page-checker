@@ -20,7 +20,7 @@
   <properties>
     <java.version>21</java.version>
 
-    <jsoup.version>1.14.3</jsoup.version>
+    <jsoup.version>1.21.2</jsoup.version>
     <javax.mail.version>1.6.2</javax.mail.version>
     <playwright.version>1.47.0</playwright.version>
   </properties>
