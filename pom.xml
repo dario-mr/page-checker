@@ -23,6 +23,7 @@
 
     <jsoup.version>1.23.2</jsoup.version>
     <playwright.version>1.62.0</playwright.version>
+    <logstash-logback.version>8.1</logstash-logback.version>
     <native-maven-plugin.version>1.1.12</native-maven-plugin.version>
     <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
   </properties>
@@ -64,6 +65,11 @@
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>${logstash-logback.version}</version>
     </dependency>
   </dependencies>
 

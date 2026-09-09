@@ -1,5 +1,6 @@
 spring:
   application.name: page-checker
+  profiles.active: ${PROFILE:prod}
   config.import: optional:file:.env[.properties] # scan .env file, if present
 
 server.port: ${PORT:8084}
