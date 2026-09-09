@@ -4,6 +4,15 @@ spring:
 
 server.port: ${PORT:8084}
 
+management:
+  endpoints:
+    web.exposure.include: health,info,prometheus
+  endpoint:
+    health.probes.enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 html-checker:
   job.active: ${HTML_JOB_ACTIVE:false}
   refresh-interval.ms: 300000 # 5 minutes
@@ -28,6 +37,11 @@ visa-checker:
   refresh-interval.ms: 3600000 # 1 hour
   url: 'https://ipc.gov.cz/informace-o-stavu-rizeni/'
   headless: ${VISA_CHECKER_HEADLESS:true}
+  form:
+    reference-number: '26384'
+    additional-suffix: '02'
+    proceedings-type: 'TP'
+    year: '2026'
 
 sender:
   address: dario.mauri9@gmail.com

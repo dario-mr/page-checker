@@ -25,3 +25,23 @@ When found, it notifies registered users via email.
 The general behavior of the application can be configured through the properties in
 `application.yaml`.
 
+## Native image
+
+Install and select GraalVM for the current shell:
+
+```shell
+sdk install java 25.3.4+1.r25-graalce
+sdk use java 25.3.4+1.r25-graalce
+```
+
+Build the native executable with GraalVM 25:
+
+```shell
+mvn -Pnative -DskipTests package
+```
+
+Run native app:
+
+```shell
+set -a; source .env; set +a; ./target/page-checker
+```
