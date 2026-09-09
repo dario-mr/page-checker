@@ -1,0 +1,31 @@
+<configuration>
+
+  <!-- dev: Spring Boot default logging -->
+  <springProfile name="dev">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  </springProfile>
+
+  <!-- non-dev: JSON logs -->
+  <springProfile name="!dev">
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+        <providers>
+          <timestamp/>
+          <logLevel/>
+          <pattern>
+            <pattern>{"logger_name":"%logger{0}"}</pattern>
+          </pattern>
+          <message/>
+          <mdc/>
+          <context/>
+          <stackTrace/>
+        </providers>
+      </encoder>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="JSON"/>
+    </root>
+  </springProfile>
+
+</configuration>

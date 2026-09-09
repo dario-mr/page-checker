@@ -1,0 +1,28 @@
+FROM container-registry.oracle.com/graalvm/native-image:25i3@sha256:18253bc0069911faa4326c2e37144210e0d51d84fbb06411cc1b0b39e4fb04a3 AS build
+RUN microdnf install -y maven && microdnf clean all
+WORKDIR /app
+COPY . .
+RUN mvn -B -Pnative -DskipTests package
+
+ARG TARGETARCH
+RUN mkdir -p /app/playwright-driver \
+    && cd /app/playwright-driver \
+    && jar xf /root/.m2/repository/com/microsoft/playwright/driver/1.62.0/driver-1.62.0.jar driver/package \
+    && mv driver/package package \
+    && rm -rf driver \
+    && if [ "$TARGETARCH" = "arm64" ]; then pw_arch=linux-arm64; else pw_arch=linux; fi \
+    && jar xf /root/.m2/repository/com/microsoft/playwright/driver-bundle/1.62.0/driver-bundle-1.62.0.jar driver/$pw_arch/node \
+    && mv driver/$pw_arch/node node \
+    && rm -rf driver \
+    && chmod +x node
+
+FROM mcr.microsoft.com/playwright:v1.62.0-noble
+WORKDIR /app
+COPY --from=build /app/target/page-checker /app/page-checker
+COPY --from=build /app/playwright-driver /app/playwright-driver
+
+ENV PLAYWRIGHT_DRIVER_DIR=/app/playwright-driver \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
+    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+
+ENTRYPOINT ["/app/page-checker"]

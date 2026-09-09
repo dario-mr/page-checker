@@ -16,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -26,23 +25,20 @@ public class VisaStatusChecker {
 
   private final EmailService emailService;
   private final ShutdownService shutdownService;
+  private final VisaProperties visaProperties;
 
   private static final Path STATE_DIR = Path.of(System.getProperty("user.home"), ".visa-checker");
   private static final Path STATE_FILE = STATE_DIR.resolve("visa-status.json");
   private static final String IN_PROGRESS = "zpracovava se";
 
-  @Value("${visa-checker.url}")
-  private String url;
-  @Value("${visa-checker.headless}")
-  private Boolean headless;
-
   public void checkStatus() {
-    log.info("Checking VISA status from {}", url);
+    log.info("Checking VISA status from {}", visaProperties.url());
 
     try (var pw = Playwright.create();
-        var browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless))) {
+        var browser = pw.chromium().launch(
+            new BrowserType.LaunchOptions().setHeadless(visaProperties.headless()))) {
       var context = prepareContext(browser);
-      var page = navigateTo(context, url);
+      var page = navigateTo(context, visaProperties.url());
 
       fillForm(page);
       var applicationStatus = submitAndExtractStatus(page);
@@ -82,10 +78,11 @@ public class VisaStatusChecker {
   }
 
   private void fillForm(Page page) {
-    page.locator("input[name='proceedings.referenceNumber']").fill("10371");
-    page.locator("input[name='proceedings.additionalSuffix']").fill("04");
-    selectReactOptionByIndex(page, 0, "PP");
-    selectReactOptionByIndex(page, 1, "2025");
+    var form = visaProperties.form();
+    page.locator("input[name='proceedings.referenceNumber']").fill(form.referenceNumber());
+    page.locator("input[name='proceedings.additionalSuffix']").fill(form.additionalSuffix());
+    selectReactOptionByIndex(page, 0, form.proceedingsType());
+    selectReactOptionByIndex(page, 1, form.year());
   }
 
   private void selectReactOptionByIndex(Page page, int index, String value) {

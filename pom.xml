@@ -7,22 +7,25 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.5</version>
+    <version>3.5.16</version>
     <relativePath/>
   </parent>
 
   <groupId>com.dario</groupId>
   <artifactId>page-checker</artifactId>
-  <version>0.0.4</version>
+  <version>0.1.0</version>
 
   <name>Page Checker</name>
 
   <properties>
-    <java.version>21</java.version>
+    <java.version>25</java.version>
+    <main.class>com.dario.pagechecker.Application</main.class>
 
-    <jsoup.version>1.21.2</jsoup.version>
-    <javax.mail.version>1.6.2</javax.mail.version>
-    <playwright.version>1.47.0</playwright.version>
+    <jsoup.version>1.23.2</jsoup.version>
+    <playwright.version>1.62.0</playwright.version>
+    <logstash-logback.version>8.1</logstash-logback.version>
+    <native-maven-plugin.version>1.1.12</native-maven-plugin.version>
+    <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -34,6 +37,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
     <!-- third parties -->
@@ -47,23 +54,172 @@
       <version>${jsoup.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.mail</groupId>
-      <artifactId>javax.mail</artifactId>
-      <version>${javax.mail.version}</version>
+      <groupId>org.eclipse.angus</groupId>
+      <artifactId>jakarta.mail</artifactId>
     </dependency>
     <dependency>
       <groupId>com.microsoft.playwright</groupId>
       <artifactId>playwright</artifactId>
       <version>${playwright.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>${logstash-logback.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build-info</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>native</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>${native-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>build-native</id>
+                <goals>
+                  <goal>compile-no-fork</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>${exec-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>java-agent</id>
+                <configuration>
+                  <executable>java</executable>
+                  <classpathScope>runtime</classpathScope>
+                  <workingDirectory>${project.build.directory}</workingDirectory>
+                  <inheritIo>true</inheritIo>
+                  <arguments>
+                    <argument>-classpath</argument>
+                    <classpath/>
+                    <argument>${main.class}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>native-record</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>${native-maven-plugin.version}</version>
+            <configuration>
+              <agent>
+                <enabled>true</enabled>
+                <metadataCopy>
+                  <merge>true</merge>
+                  <outputDirectory>${project.basedir}/src/main/resources/META-INF/native-image
+                  </outputDirectory>
+                </metadataCopy>
+              </agent>
+            </configuration>
+            <executions>
+              <execution>
+                <id>copy-native-metadata</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>${exec-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>java-agent</id>
+                <configuration>
+                  <executable>java</executable>
+                  <classpathScope>runtime</classpathScope>
+                  <workingDirectory>${project.build.directory}</workingDirectory>
+                  <inheritIo>true</inheritIo>
+                  <arguments>
+                    <argument>-classpath</argument>
+                    <classpath/>
+                    <argument>${main.class}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-native-agent-output</id>
+                <phase>none</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.basedir}/src/main/resources/META-INF/native-image
+                  </outputDirectory>
+                  <overwrite>true</overwrite>
+                  <resources>
+                    <resource>
+                      <directory>${project.build.directory}/native/agent-output/main</directory>
+                      <includes>
+                        <include>*.json</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

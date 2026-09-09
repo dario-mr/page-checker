@@ -1,23 +1,23 @@
 # ---------- 1) Build the JAR ----------
-FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
+FROM maven:3.9.14-eclipse-temurin-25-noble AS build
 WORKDIR /app
 COPY . .
 RUN mvn -B -q package -DskipTests
 
 # ---------- 2) Bring in Playwright browsers ----------
 # This image already contains Chromium/WebKit/Firefox + all OS deps.
-FROM mcr.microsoft.com/playwright:v1.47.0-jammy AS pw
+FROM mcr.microsoft.com/playwright:v1.62.0-noble AS pw
 
 # ---------- 3) Runtime (JRE + minimal libs) ----------
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-noble
 
 # Install Playwright/Chromium runtime dependencies (smaller than full pw image)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
-    libxkbcommon0 libasound2 libxcomposite1 libxdamage1 libxrandr2 \
-    libgbm1 libgtk-3-0 libpango-1.0-0 libpangocairo-1.0-0 libatspi2.0-0 \
+    libnss3 libatk1.0-0t64 libatk-bridge2.0-0t64 libcups2t64 libdrm2 \
+    libxkbcommon0 libasound2t64 libxcomposite1 libxdamage1 libxrandr2 \
+    libgbm1 libgtk-3-0t64 libpango-1.0-0 libpangocairo-1.0-0 libatspi2.0-0t64 \
     libwayland-client0 libwayland-server0 libxshmfence1 fonts-liberation \
-    ca-certificates libcurl4 \
+    ca-certificates libcurl4t64 \
  && rm -rf /var/lib/apt/lists/*
 
 # Copy the Playwright browsers from the pw stage
